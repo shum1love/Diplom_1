@@ -18,6 +18,8 @@ public class BurgerTest {
     private Burger burger;
     @Mock
     Bun bunMock;
+    @Mock
+    Ingredient mockedIngredient;
     @Test
     public void testSetBuns(){
         Mockito.when(bunMock.getPrice()).thenReturn(10.0f);
@@ -29,5 +31,19 @@ public class BurgerTest {
         burger.getPrice();
         verify(bunMock).getPrice();
     }
+    // Тестовый метод для проверки добавления ингредиента
+    @Test
 
+    public void testAddIngredient() {
+        // Добавляем ингредиент
+        burger.addIngredient(mockedIngredient);
+
+        // Проверяем, что ингредиент был добавлен
+        assertEquals(1, burger.ingredients.size());
+        assertSame(mockedIngredient, burger.ingredients.get(0));
+    }
+    @Test
+    public void testRemoveIngredient(){
+
+   }
 }
