@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -23,6 +25,8 @@ public class BurgerTest {
     Bun bunMock;
     @Mock
     Ingredient mockedIngredient;
+    @Mock
+    private Ingredient mockedIngredient2;
     @Test
     public void testSetBuns(){
         when(bunMock.getPrice()).thenReturn(10.0f);
@@ -88,26 +92,43 @@ public class BurgerTest {
 
     }
     @Test
-    public void testGetReceipt(){
-        //
-        when(bunMock.getName()).thenReturn("White");
-        when(bunMock.getPrice()).thenReturn(100f);
-        //
-        List<Ingredient> ingredients = TestDataGenerator.createDefaultIngredients();
-        //
-        burger.setBuns(bunMock);
-        for (Ingredient ingredient : ingredients) {
-            burger.addIngredient(ingredient);
-        }
-        //
-        String rightReceipt =
-                "(==== White ====)\n" +
-                        "= sauce Cheese =\n" +
-                        "= filling Tomato =\n" +
-                        "= filling Meat =\n" +
-                        "(==== White ====)\n\n" +
-                        "Price: 800,000000\n";
-        assertEquals(rightReceipt, burger.getReceipt());
+    public void testGetReceipt() {
+        // Создаем моки для булочки и ингредиентов
+        Bun mockBun = mock(Bun.class);
+        when(mockBun.getName()).thenReturn("Classic Bun");
+        when(mockBun.getPrice()).thenReturn(5.0f);
 
+        Ingredient mockIngredient1 = mock(Ingredient.class);
+        when(mockIngredient1.getName()).thenReturn("Lettuce");
+        when(mockIngredient1.getPrice()).thenReturn(2.0f);
+        when(mockIngredient1.getType()).thenReturn(IngredientType.FILLING);
+
+        Ingredient mockIngredient2 = mock(Ingredient.class);
+        when(mockIngredient2.getName()).thenReturn("Ketchup");
+        when(mockIngredient2.getPrice()).thenReturn(1.0f);
+        when(mockIngredient2.getType()).thenReturn(IngredientType.SAUCE);
+
+        // Создаем объект Burger и наполняем данными
+        Burger burger = new Burger();
+        burger.setBuns(mockBun);
+        burger.addIngredient(mockIngredient1);
+        burger.addIngredient(mockIngredient2);
+
+        // Ожидаемый результат
+        String expectedReceipt = String.format(
+                "(==== %s ====)%n" +
+                        "= %s %s =%n" +
+                        "= %s %s =%n" +
+                        "(==== %s ====)%n%n" +
+                        "Price: %f%n",
+                "Classic Bun",
+                "filling", "Lettuce",
+                "sauce", "Ketchup",
+                "Classic Bun",
+                burger.getPrice()
+        );
+
+        // Проверяем результат работы getReceipt
+        assertEquals(expectedReceipt, burger.getReceipt());
     }
 }
