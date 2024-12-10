@@ -4,16 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -25,8 +19,6 @@ public class BurgerTest {
     Bun bunMock;
     @Mock
     Ingredient mockedIngredient;
-    @Mock
-    private Ingredient mockedIngredient2;
     @Test
     public void testSetBuns(){
         when(bunMock.getPrice()).thenReturn(10.0f);
